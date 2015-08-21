@@ -39,8 +39,17 @@ public class AniCoreMain implements Runnable {
                 }
             }
             Iterator<Story> iterator = stories.stream()
-                    .filter(o -> !o.isOngoing() && !o.getGenre().contains("спорт") && !o.getGenre().contains("сёдзё") && o.getYear() >= 1990 && o.getRating() >= 3.0)
-                    .sorted((o1, o2) -> -Float.compare(o1.getRating(), o2.getRating()))
+                    .filter(o -> !o.isOngoing())
+                    .filter(o -> !o.getGenre().contains("спорт") && !o.getGenre().contains("сёдзё") && !o.getGenre().contains("этти"))
+                    .filter(o -> o.getYear() >= 2008)
+                    .filter(o -> o.getRating() >= 4.0)
+                    .sorted((o1, o2) -> {
+                        int f = -Float.compare(o1.getRating(), o2.getRating());
+                        if (f != 0) {
+                            return f;
+                        }
+                        return -Integer.compare(o1.getYear(), o2.getYear());
+                    })
                     .iterator();
 
             writer.println("<html><head><style>");
